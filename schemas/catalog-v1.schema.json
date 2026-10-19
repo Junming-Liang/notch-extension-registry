@@ -1,0 +1,13 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Notch Registry v1 Development Catalog",
+  "type":"object",
+  "required":["schemaVersion","catalogVersion","distribution","entries"],
+  "properties":{
+    "schemaVersion":{"const":1},
+    "catalogVersion":{"type":"integer","minimum":1},
+    "distribution":{"enum":["development","production"]},
+    "entries":{"type":"array","maxItems":1000,"items":{"type":"object","required":["id","version","protocolVersion","architecture","minHostVersion","size","sha256","downloadURL","capabilities"],"properties":{"id":{"type":"string"},"version":{"type":"string"},"protocolVersion":{"const":1},"architecture":{"enum":["arm64","x86_64","universal"]},"minHostVersion":{"type":"string"},"size":{"type":"integer","minimum":1,"exclusiveMaximum":2147483648},"sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},"downloadURL":{"type":"string","format":"uri"},"capabilities":{"type":"array","items":{"type":"string"}}}}}
+  },
+  "$comment":"Structural validation alone does not authorize execution. Production distribution requires verified signatures and pinned trust roots, absent in this initial slice."
+}
