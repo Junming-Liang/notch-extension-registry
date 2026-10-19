@@ -1,0 +1,13 @@
+name: Validate registry
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - run: python3 tools/validate_catalog.py site/catalog-v1.json
+      - run: python3 -m unittest discover -s tests -v
+      - run: echo 'Pages deployment deliberately not enabled before trust configuration review.'
